@@ -1,0 +1,19 @@
+# build on top of out base image
+FROM singlecellpipeline/python_singlecell_qc:v0.1.2
+ARG app_version
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.18#egg=pypeliner
+RUN pip install -e git+https://github.com/shahcompbio/microscope_image_converter.git@{app_version}#egg=microscope-image-converter
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME microscope_image_converter
+
+# Run app.py when the container launches
+CMD ["python"]
