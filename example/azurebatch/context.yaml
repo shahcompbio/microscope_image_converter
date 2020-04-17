@@ -1,0 +1,9 @@
+docker:
+    server: 'xxxx.azurecr.io'
+    username: 'xxxx'
+    password: 'xxxx'
+    org: singlecellpipeline
+    mounts:
+      refdata: /refdata
+      datadrive: /datadrive
+      mnt: /mnt

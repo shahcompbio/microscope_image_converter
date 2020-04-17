@@ -1,0 +1,3 @@
+docker pull scdnaprod.azurecr.io/singlecellpipeline/microscope_image_converter:v0.0.1
+
+docker run -v $PWD:$PWD -w $PWD --rm -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker  --env-file set-docker-credentials.sh scdnaprod.azurecr.io/singlecellpipeline/microscope_image_converter:v0.0.1 microscope_image_converter --input_yaml inputs.yaml --out_dir singlecelltemp/tempdirmicroscope/out --loglevel DEBUG --tmpdir singlecelltemp/tempdirmicroscope/tmp --pipelinedir singlecelltemp/tempdirmicroscope/pipeline --submit azurebatch  --storage azureblob  --submit_config  batch.yaml --sentinel_only --context_config  context.yaml

@@ -1,0 +1,5 @@
+cell_images:
+  A73047D_R23_C21:
+    livedead: singlecelltemp/testdirmicroscope/R23_C21_0000_01_Red.tif
+    cfse: singlecelltemp/testdirmicroscope/R23_C21_0000_00_Cyan.tif
+

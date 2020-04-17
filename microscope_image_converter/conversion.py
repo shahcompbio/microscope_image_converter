@@ -1,29 +1,52 @@
 import os
-import re
-
-import pypeliner.managed as mgd
-from microscope_image_converter.utils import inpututils
+import sys
 
 import pypeliner
-import sys
+import pypeliner.managed as mgd
+import yaml
+
+
+def docker_containers():
+    containers = {
+        'microscope_image_converter': 'microscope_image_converter:v0.0.1'
+    }
+
+    return containers
+
+
+def load_yaml(path):
+    try:
+        with open(path) as infile:
+            data = yaml.safe_load(infile)
+    except IOError:
+        raise Exception(
+            'Unable to open file: {0}'.format(path))
+
+    return data
+
+
+def get_cell_images(path):
+    data = load_yaml(path)
+    data = data['cell_images']
+    samples = list(data.keys())
+
+    cfse_images = {sample: data[sample]['cfse'] for sample in samples}
+    livedead_images = {sample: data[sample]['livedead'] for sample in samples}
+
+    return samples, cfse_images, livedead_images
 
 
 def conversion_workflow(args):
-    config = inpututils.load_config(args)
-    config = config['convert']
+    docker = docker_containers()
 
     converted_dir = args["out_dir"]
 
-    red_images, cyan_images, cell_ids = inpututils.get_cell_images(args['input_yaml'])
+    cell_ids, cfse_images, livedead_images = get_cell_images(args['input_yaml'])
 
     converted_image_template = os.path.join(converted_dir, '{cell_id}.png')
 
-    converted_meta = os.path.join(converted_dir, 'metadata.yaml')
-
-    input_yaml_blob = os.path.join(converted_dir, 'input.yaml')
-
     workflow = pypeliner.workflow.Workflow(
-        ctx={'docker_image': config['docker']['microscope_image_converter']}
+        ctx={'docker_image': docker['microscope_image_converter']}
     )
 
     workflow.setobj(
@@ -36,15 +59,17 @@ def conversion_workflow(args):
         func='microscope_image_converter.tasks.convert',
         axes=('cell_id',),
         args=(
-            mgd.InputFile('red.tif', 'cell_id', fnames=red_images),
-            mgd.InputFile('cyan.tif', 'cell_id', fnames=cyan_images),
+            mgd.InputFile('livedead.tif', 'cell_id', fnames=livedead_images),
+            mgd.InputFile('cfse.tif', 'cell_id', fnames=cfse_images),
             mgd.OutputFile('converted.png', 'cell_id', template=converted_image_template, axes_origin=[]),
         ),
     )
 
+    converted_meta = os.path.join(converted_dir, 'metadata.yaml')
+    input_yaml_blob = os.path.join(converted_dir, 'input.yaml')
     workflow.transform(
         name='generate_meta_files_results',
-        func='microscope_image_converter.utils.helpers.generate_and_upload_metadata',
+        func='microscope_image_converter.tasks.generate_and_upload_metadata',
         args=(
             sys.argv[0:],
             converted_dir,
@@ -52,7 +77,7 @@ def conversion_workflow(args):
             mgd.OutputFile(converted_meta)
         ),
         kwargs={
-            'input_yaml_data': inpututils.load_yaml(args['input_yaml']),
+            'input_yaml_data': load_yaml(args['input_yaml']),
             'input_yaml': mgd.OutputFile(input_yaml_blob),
             'metadata': {
                 'cell_ids': cell_ids,

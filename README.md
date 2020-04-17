@@ -1,11 +1,25 @@
 # Microscope image converter
 
-For a detailed guide see the related single cell pipeline
 
 [Changelog](CHANGELOG.md)
 
 Run on an example:
 
+
+locally:
 ```
-microscope_image_converter convert --input_yaml example/inputs.yaml --out_dir example/out/ --loglevel DEBUG --tmpdir tmp --pipelinedir pipeline --submit local
+cd example/local
+sh run.sh
+```
+
+
+azurebatch:
+
+fill out the following:
+1. subscription id in example/azurebatch/batch.yaml
+2. fill in example/azurebatch/set-credentials-docker.sh and example/azurebatch/context.yaml
+
+```
+cd  example/azurebatch
+sh run.sh
 ```
