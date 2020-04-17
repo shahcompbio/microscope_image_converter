@@ -1,0 +1,13 @@
+FROM continuumio/miniconda3
+
+RUN apt update &&  apt install vim -y && rm -rf /var/lib/apt/lists/*
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.18#egg=pypeliner
+RUN pip install -e git+https://github.com/shahcompbio/microscope_image_converter.git@master#egg=microscope-image-converter
+RUN pip install dill==0.3.1.1 networkx==2.4 numpy==1.18.2 pandas==1.0.3 PyYAML==5.3.1 scikit-image
+RUN pip install azure-storage azure-batch==8.0.0 futures azure.storage.common boto3 jinja2 ete3 bx-python azure-core azure-keyvault-secrets azure-identity azure.common pika
+
+EXPOSE 80
+
+ENV NAME microscope_image_converter
+
+CMD ["python"]
