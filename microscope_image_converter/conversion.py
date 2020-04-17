@@ -10,7 +10,7 @@ import sys
 
 def conversion_workflow(args):
     config = inpututils.load_config(args)
-    config = config['conversion']
+    config = config['convert']
 
     converted_dir = args["out_dir"]
 
@@ -44,7 +44,7 @@ def conversion_workflow(args):
 
     workflow.transform(
         name='generate_meta_files_results',
-        func='single_cell.utils.helpers.generate_and_upload_metadata',
+        func='microscope_image_converter.utils.helpers.generate_and_upload_metadata',
         args=(
             sys.argv[0:],
             converted_dir,
@@ -55,7 +55,7 @@ def conversion_workflow(args):
             'input_yaml_data': inpututils.load_yaml(args['input_yaml']),
             'input_yaml': mgd.OutputFile(input_yaml_blob),
             'metadata': {
-                'cell_ids': cell_id,
+                'cell_ids': cell_ids,
                 'type': 'dlp_microscope_merged',
             }
         }

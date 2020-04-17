@@ -211,7 +211,7 @@ def get_pool_def(
     task_start_commands = get_compute_start_commands(vm_image)
     task_finish_commands = get_compute_finish_commands(vm_image)
 
-    poolname = "singlecell{}{}_v3".format(reference, pool_type)
+    poolname = "microscope_image_converter{}{}_v3".format(reference, pool_type)
 
     pooldata = {
         "pool_vm_size": get_vm_size_azure(cpus_per_task, mem_per_task, tasks_per_node),
@@ -333,7 +333,7 @@ def get_batch_config(defaults, override={}):
     config.update({"no_delete_pool": defaults["no_delete_pool"]})
     config.update({"no_delete_job": defaults["no_delete_job"]})
 
-    config.update({"pypeliner_storage_account": "singlecellpypeliner"})
+    config.update({"pypeliner_storage_account": "microscope_image_converter_pypeliner"})
 
     config = override_config(config, override)
 

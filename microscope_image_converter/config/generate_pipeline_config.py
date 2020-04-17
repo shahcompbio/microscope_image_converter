@@ -1,7 +1,7 @@
 import os
 import logging
-from single_cell.config import pipeline_config
-from single_cell.utils import helpers
+from microscope_image_converter.config import pipeline_config
+from microscope_image_converter.utils import helpers
 
 
 def generate_pipeline_config_in_temp(args):
@@ -22,7 +22,7 @@ def generate_pipeline_config_in_temp(args):
     elif tmpdir:
         config_yaml = os.path.join(tmpdir, config_yaml)
     else:
-        logging.getLogger("single_cell.generate_pipeline_config").warn(
+        logging.getLogger("microscope_image_converter.generate_pipeline_config").warn(
             "no tmpdir specified, generating configs in working dir"
         )
         config_yaml = os.path.join(os.getcwd(), config_yaml)
@@ -34,7 +34,7 @@ def generate_pipeline_config_in_temp(args):
     helpers.makedirs(config_yaml, isfile=True)
 
     config_params = pipeline_config.get_config_params(override=params_override)
-    config = pipeline_config.get_singlecell_pipeline_config(config_params, override=params_override)
+    config = pipeline_config.get_microscope_image_converter_pipeline_config(config_params, override=params_override)
     pipeline_config.write_config(config, config_yaml)
 
     args["config_file"] = config_yaml

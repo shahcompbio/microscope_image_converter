@@ -1,5 +1,4 @@
 import os
-import single_cell
 import subprocess
 import collections
 import numbers

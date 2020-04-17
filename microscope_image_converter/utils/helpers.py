@@ -16,7 +16,7 @@ from subprocess import Popen, PIPE
 
 import pandas as pd
 import pypeliner
-import single_cell
+import microscope_image_converter
 import yaml
 
 
@@ -117,7 +117,7 @@ def generate_meta_yaml_file(
 
 
 def get_version():
-    version = single_cell.__version__
+    version = microscope_image_converter.__version__
     # strip setuptools metadata
     version = version.split("+")[0]
     return version
@@ -159,7 +159,7 @@ class getFileHandle(object):
         elif ext == '.yaml':
             return 'plain-text'
         else:
-            logging.getLogger("single_cell.helpers").warning(
+            logging.getLogger("microscope_image_converter.helpers").warning(
                 "Couldn't detect output format. extension {}".format(ext)
             )
             return "plain-text"
@@ -199,7 +199,7 @@ def get_file_format(filepath):
     elif ext == ".h5" or ext == ".hdf5":
         return "h5"
     else:
-        logging.getLogger("single_cell.plot_metrics").warning(
+        logging.getLogger("microscope_image_converter.plot_metrics").warning(
             "Couldn't detect output format. extension {}".format(ext)
         )
         return "csv"

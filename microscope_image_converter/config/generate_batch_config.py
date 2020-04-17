@@ -2,8 +2,8 @@
 import logging
 import os
 
-from single_cell.config import batch
-from single_cell.utils import helpers
+from microscope_image_converter.config import batch
+from microscope_image_converter.utils import helpers
 
 
 def generate_submit_config_in_temp(args):
@@ -29,7 +29,7 @@ def generate_submit_config_in_temp(args):
     elif tmpdir:
         batch_yaml = os.path.join(tmpdir, batch_yaml)
     else:
-        logging.getLogger("single_cell.generate_batch_config").warn(
+        logging.getLogger("microscope_image_converter.generate_batch_config").warn(
             "no tmpdir specified, generating configs in working dir"
         )
         batch_yaml = os.path.join(os.getcwd(), batch_yaml)

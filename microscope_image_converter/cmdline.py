@@ -97,8 +97,8 @@ def parse_args():
     # ===========
     # convert
     # ===========
-    conversion = add_global_args(subparsers.add_parser("convert"))
-    conversion.set_defaults(which='conversion')
+    convert = add_global_args(subparsers.add_parser("convert"))
+    convert.set_defaults(which='convert')
 
     # ======================================
     # generates pipeline and batch configs

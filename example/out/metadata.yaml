@@ -1,0 +1,12 @@
+filenames:
+- A73047D_R23_C21.png
+- input.yaml.tmp
+meta:
+  cell_ids:
+  - A73047D_R23_C21
+  command: /Users/mcphera1/Projects/microscope_image_converter/venv/bin/microscope_image_converter
+    convert --input_yaml example/inputs.yaml --out_dir example/out/ --loglevel DEBUG
+    --tmpdir tmp --pipelinedir pipeline --submit local
+  input_yaml: input.yaml.tmp
+  type: dlp_microscope_merged
+  version: '0'

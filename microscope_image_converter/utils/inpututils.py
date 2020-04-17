@@ -16,3 +16,16 @@ def load_yaml(path):
     return data
 
 
+def get_cell_images(input_yaml):
+    yamldata = load_yaml(input_yaml)
+
+    cell_images = yamldata['cell_images']
+
+    # TODO: is this correct?
+    cell_ids = list(cell_images.keys())
+    livedead_images = {cell_id: cell_images[cell_id]['livedead'] for cell_id in cell_images}
+    cfse_images = {cell_id: cell_images[cell_id]['cfse'] for cell_id in cell_images}
+
+    return livedead_images, cfse_images, cell_ids
+
+
