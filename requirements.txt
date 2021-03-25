@@ -7,5 +7,5 @@ pandas==1.0.3
 -e git+https://github.com/shahcompbio/pypeliner.git@c05fe838d3d7aa60fc1a427b6d0c38eba9001eee#egg=pypeliner
 python-dateutil==2.8.1
 pytz==2019.3
-PyYAML==5.3.1
+PyYAML==5.4
 six==1.14.0
